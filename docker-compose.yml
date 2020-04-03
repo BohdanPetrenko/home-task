@@ -1,0 +1,55 @@
+version: '2.4'
+services:
+  app:
+    container_name: bs-app
+    mem_limit: 1024m
+    mem_reservation: 300m
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "5"
+    build:
+      context: ./
+    ports:
+      - 80:80
+    volumes:
+      - ./:/app:delegated
+    environment:
+      WEB_DOCUMENT_ROOT: /app/public
+    depends_on:
+      - redis
+  db:
+    container_name: bs-db
+    command: --default-authentication-plugin=mysql_native_password
+    image: mysql
+    restart: always
+    volumes:
+      - mysql:/var/lib/mysql
+    environment:
+      MYSQL_USER: hello
+      MYSQL_PASSWORD: world
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: banking_system
+    ports:
+      - 33060:3306
+  pma:
+    container_name: bs-pma
+    image: phpmyadmin/phpmyadmin
+    restart: always
+    environment:
+      PMA_HOST: db
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - 8080:80
+    depends_on:
+      - db
+      - app
+  redis:
+    container_name: bs-redis
+    image: redis
+    ports:
+      - 6378:6379
+volumes:
+  mysql:
+    driver: local
