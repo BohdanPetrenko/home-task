@@ -26,15 +26,17 @@ Route::group([
         ->names('payment.card');
 
     Route::group([
+        'as' => 'profile.',
         'prefix' => '/profile'
     ], function(){
-        Route::get('/','UserProfileController@index')->name('profile.index');
-        Route::get('/edit','UserProfileController@edit')->name('profile.edit');
-        Route::put('/','UserProfileController@update')->name('profile.update');
+        Route::get('/','UserProfileController@index')->name('index');
+        Route::get('/edit','UserProfileController@edit')->name('edit');
+        Route::put('/','UserProfileController@update')->name('update');
     });
 });
 
 Route::group([
+    'as' => 'transaction.',
     'prefix' => '/transaction'
 ], function () {
     Route::get('/', 'TransactionController@index')->name('transaction.index');
