@@ -22,7 +22,7 @@ use Spatie\Permission\Traits\HasRoles;
  * @property Carbon $created_at
  * @property Carbon $updated_at
  **
- * @property Collection|PaymentCard[] $paymentCard
+ * @property Collection|PaymentCard $paymentCard
  */
 class User extends Authenticatable
 {

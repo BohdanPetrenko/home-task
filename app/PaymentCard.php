@@ -2,8 +2,10 @@
 
 namespace App;
 
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Carbon;
 
@@ -20,6 +22,7 @@ use Illuminate\Support\Carbon;
  *
  * @property User $user
  * @property PaymentCardBalance $balance
+ * @property Collection|TransactionLog $log
  */
 class PaymentCard extends Model
 {
@@ -27,6 +30,7 @@ class PaymentCard extends Model
         'VISA',
         'MASTERCARD',
     ];
+    public $timestamps = false;
 
     protected $with = ['balance'];
 
@@ -38,9 +42,6 @@ class PaymentCard extends Model
         'cvv',
         'expiration',
     ];
-
-    public $timestamps = false;
-
     protected $hidden = ['cvv', 'expiration'];
 
     public function user(): BelongsTo
@@ -55,6 +56,11 @@ class PaymentCard extends Model
 
     public function getCardNumberAttribute($value): int
     {
-        return (int) $value;
+        return (int)$value;
+    }
+
+    public function log(): HasMany
+    {
+        return $this->hasMany(TransactionLog::class, 'sender', 'card_number');
     }
 }

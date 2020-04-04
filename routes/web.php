@@ -39,9 +39,9 @@ Route::group([
     'as' => 'transaction.',
     'prefix' => '/transaction'
 ], function () {
-    Route::get('/', 'TransactionController@index')->name('transaction.index');
-    Route::patch('/', 'TransactionController@transaction')->name('transaction.make');
+    Route::get('/', 'TransactionController@index')->name('index');
+    Route::patch('/', 'TransactionController@transaction')->name('make');
     Route::get('/{cardNumber}', 'TransactionController@log')
-        ->name('transaction.show')
+        ->name('show')
         ->middleware('auth');
 });
