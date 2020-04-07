@@ -12,7 +12,7 @@ final class PaymentCardController extends Controller
     public function index(Request $request)
     {
         return view('payment.index', [
-            'user' => $request->user()->with('paymentCard')->first(),
+            'cards' => $request->user()->paymentCard->reverse()->values(),
         ]);
     }
 
@@ -28,7 +28,7 @@ final class PaymentCardController extends Controller
         $manager->store($request->user(), $request->validated(), $this);
 
         return view('payment.index', [
-            'user' => $request->user()->with('paymentCard')->first(),
+            'cards' => $request->user()->paymentCard->reverse()->values(),
         ]);
     }
 }

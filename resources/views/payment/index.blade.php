@@ -17,7 +17,7 @@
                         </thead>
 
                         <tbody>
-                        @foreach($user->paymentCard->reverse()->values() as $key => $userCard)
+                        @foreach($cards as $key => $userCard)
                             <tr>
                                 <td>{{ ++$key }}</td>
                                 <td><a href=" {{ route('transaction.show', ['cardNumber' => $userCard->card_number]) }} ">
